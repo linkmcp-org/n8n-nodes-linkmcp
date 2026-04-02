@@ -1,0 +1,295 @@
+import type { INodeProperties } from 'n8n-workflow';
+
+export const postOperations: INodeProperties = {
+	displayName: 'Operation',
+	name: 'operation',
+	type: 'options',
+	noDataExpression: true,
+	displayOptions: { show: { resource: ['post'] } },
+	options: [
+		{
+			name: 'Get Person Posts',
+			value: 'getPersonPosts',
+			action: 'Get a person\'s posts',
+			description: 'Retrieve a person\'s recent LinkedIn posts (~50)',
+		},
+		{
+			name: 'Get Comments',
+			value: 'getComments',
+			action: 'Get post comments',
+			description: 'Retrieve comments on a LinkedIn post',
+		},
+		{
+			name: 'Get Reactions',
+			value: 'getReactions',
+			action: 'Get post reactions',
+			description: 'Retrieve reactions on a LinkedIn post',
+		},
+		{
+			name: 'Create',
+			value: 'create',
+			action: 'Create a post',
+			description: 'Publish a new LinkedIn post',
+		},
+		{
+			name: 'Comment',
+			value: 'comment',
+			action: 'Comment on a post',
+			description: 'Add a comment to a LinkedIn post',
+		},
+		{
+			name: 'React',
+			value: 'react',
+			action: 'React to a post',
+			description: 'Add a reaction to a LinkedIn post',
+		},
+	],
+	default: 'getPersonPosts',
+};
+
+export const postFields: INodeProperties[] = [
+	// --- Get Person Posts ---
+	{
+		displayName: 'Identifier',
+		name: 'identifier',
+		type: 'string',
+		required: true,
+		default: '',
+		placeholder: 'https://linkedin.com/in/john-doe',
+		description: 'LinkedIn profile URL, slug, or URN',
+		displayOptions: { show: { resource: ['post'], operation: ['getPersonPosts'] } },
+	},
+	{
+		displayName: 'Cursor',
+		name: 'cursor',
+		type: 'string',
+		default: '',
+		description: 'Pagination cursor from a previous response',
+		displayOptions: { show: { resource: ['post'], operation: ['getPersonPosts'] } },
+	},
+
+	// --- Get Comments ---
+	{
+		displayName: 'Post URL',
+		name: 'postUrl',
+		type: 'string',
+		default: '',
+		placeholder: 'https://www.linkedin.com/feed/update/urn:li:activity:123',
+		description: 'LinkedIn post URL (provide this or Activity URN)',
+		displayOptions: { show: { resource: ['post'], operation: ['getComments'] } },
+	},
+	{
+		displayName: 'Activity URN',
+		name: 'activityUrn',
+		type: 'string',
+		default: '',
+		description: 'Activity URN (preferred over post URL)',
+		displayOptions: { show: { resource: ['post'], operation: ['getComments'] } },
+	},
+	{
+		displayName: 'Cursor',
+		name: 'cursor',
+		type: 'string',
+		default: '',
+		description: 'Pagination cursor from a previous response',
+		displayOptions: { show: { resource: ['post'], operation: ['getComments'] } },
+	},
+
+	// --- Get Reactions ---
+	{
+		displayName: 'Post URL',
+		name: 'postUrl',
+		type: 'string',
+		default: '',
+		placeholder: 'https://www.linkedin.com/feed/update/urn:li:activity:123',
+		description: 'LinkedIn post URL (provide this or Activity URN)',
+		displayOptions: { show: { resource: ['post'], operation: ['getReactions'] } },
+	},
+	{
+		displayName: 'Activity URN',
+		name: 'activityUrn',
+		type: 'string',
+		default: '',
+		description: 'Activity URN (preferred over post URL)',
+		displayOptions: { show: { resource: ['post'], operation: ['getReactions'] } },
+	},
+	{
+		displayName: 'Cursor',
+		name: 'cursor',
+		type: 'string',
+		default: '',
+		description: 'Pagination cursor from a previous response',
+		displayOptions: { show: { resource: ['post'], operation: ['getReactions'] } },
+	},
+
+	// --- Create Post ---
+	{
+		displayName: 'Text',
+		name: 'text',
+		type: 'string',
+		typeOptions: { rows: 6 },
+		required: true,
+		default: '',
+		description: 'Post content (max 3000 characters)',
+		displayOptions: { show: { resource: ['post'], operation: ['create'] } },
+	},
+	{
+		displayName: 'Additional Fields',
+		name: 'additionalFields',
+		type: 'collection',
+		placeholder: 'Add Field',
+		default: {},
+		displayOptions: { show: { resource: ['post'], operation: ['create'] } },
+		options: [
+			{
+				displayName: 'Image URLs',
+				name: 'imageUrls',
+				type: 'string',
+				default: '',
+				description: 'Comma-separated public image URLs (max 20, each max 5MB)',
+			},
+			{
+				displayName: 'External Link',
+				name: 'externalLink',
+				type: 'string',
+				default: '',
+				description: 'URL for a link preview card',
+			},
+			{
+				displayName: 'Repost ID',
+				name: 'repost',
+				type: 'string',
+				default: '',
+				description: 'Social ID of the post to repost',
+			},
+			{
+				displayName: 'Mentions (JSON)',
+				name: 'mentions',
+				type: 'string',
+				default: '',
+				description:
+					'JSON array of mentions, e.g. [{"name":"John Doe","profile_id":"john-doe"}]. Add is_company:true for company mentions.',
+			},
+			{
+				displayName: 'Content Check',
+				name: 'contentCheck',
+				type: 'options',
+				options: [
+					{ name: 'Strict', value: 'strict' },
+					{ name: 'Autofix', value: 'autofix' },
+					{ name: 'Disabled', value: 'disabled' },
+				],
+				default: 'strict',
+				description: 'LLM artifact detection level',
+			},
+		],
+	},
+
+	// --- Comment ---
+	{
+		displayName: 'Post URL',
+		name: 'postUrl',
+		type: 'string',
+		default: '',
+		placeholder: 'https://www.linkedin.com/feed/update/urn:li:activity:123',
+		description: 'LinkedIn post URL (provide this or Post ID)',
+		displayOptions: { show: { resource: ['post'], operation: ['comment'] } },
+	},
+	{
+		displayName: 'Post ID',
+		name: 'postId',
+		type: 'string',
+		default: '',
+		description: 'Activity URN or numeric post ID (alternative to Post URL)',
+		displayOptions: { show: { resource: ['post'], operation: ['comment'] } },
+	},
+	{
+		displayName: 'Text',
+		name: 'commentText',
+		type: 'string',
+		typeOptions: { rows: 3 },
+		required: true,
+		default: '',
+		description: 'Comment text (max 1250 characters)',
+		displayOptions: { show: { resource: ['post'], operation: ['comment'] } },
+	},
+	{
+		displayName: 'Additional Fields',
+		name: 'commentAdditionalFields',
+		type: 'collection',
+		placeholder: 'Add Field',
+		default: {},
+		displayOptions: { show: { resource: ['post'], operation: ['comment'] } },
+		options: [
+			{
+				displayName: 'Parent Comment ID',
+				name: 'commentId',
+				type: 'string',
+				default: '',
+				description: 'Comment ID to reply to (for threaded replies)',
+			},
+			{
+				displayName: 'Mentions (JSON)',
+				name: 'mentions',
+				type: 'string',
+				default: '',
+				description:
+					'JSON array of mentions, e.g. [{"name":"John Doe","identifier":"john-doe"}]',
+			},
+			{
+				displayName: 'Content Check',
+				name: 'contentCheck',
+				type: 'options',
+				options: [
+					{ name: 'Strict', value: 'strict' },
+					{ name: 'Autofix', value: 'autofix' },
+					{ name: 'Disabled', value: 'disabled' },
+				],
+				default: 'strict',
+				description: 'LLM artifact detection level',
+			},
+		],
+	},
+
+	// --- React ---
+	{
+		displayName: 'Post URL',
+		name: 'postUrl',
+		type: 'string',
+		default: '',
+		placeholder: 'https://www.linkedin.com/feed/update/urn:li:activity:123',
+		description: 'LinkedIn post URL (provide this or Post ID)',
+		displayOptions: { show: { resource: ['post'], operation: ['react'] } },
+	},
+	{
+		displayName: 'Post ID',
+		name: 'postId',
+		type: 'string',
+		default: '',
+		description: 'Activity URN or numeric post ID (alternative to Post URL)',
+		displayOptions: { show: { resource: ['post'], operation: ['react'] } },
+	},
+	{
+		displayName: 'Reaction Type',
+		name: 'reactionType',
+		type: 'options',
+		options: [
+			{ name: 'Like', value: 'like' },
+			{ name: 'Celebrate', value: 'celebrate' },
+			{ name: 'Support', value: 'support' },
+			{ name: 'Love', value: 'love' },
+			{ name: 'Insightful', value: 'insightful' },
+			{ name: 'Funny', value: 'funny' },
+		],
+		default: 'like',
+		displayOptions: { show: { resource: ['post'], operation: ['react'] } },
+	},
+	{
+		displayName: 'Comment ID',
+		name: 'reactCommentId',
+		type: 'string',
+		default: '',
+		description: 'React to a specific comment instead of the post',
+		displayOptions: { show: { resource: ['post'], operation: ['react'] } },
+	},
+];

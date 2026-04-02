@@ -1,0 +1,34 @@
+{
+	"node": "n8n-nodes-linkmcp.linkMcp",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Sales"],
+	"subcategories": {
+		"Sales": ["Lead Management"]
+	},
+	"alias": [
+		"linkedin",
+		"linkedin profile",
+		"linkedin search",
+		"linkedin message",
+		"linkedin enrichment",
+		"linkedin connection",
+		"linkedin post",
+		"sales navigator",
+		"lead enrichment",
+		"find email",
+		"outreach"
+	],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://docs.linkmcp.io/quickstart"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/linkmcp/n8n-nodes-linkmcp"
+			}
+		]
+	}
+}
