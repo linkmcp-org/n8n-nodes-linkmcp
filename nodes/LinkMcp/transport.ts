@@ -22,15 +22,11 @@ export async function callMcpTool(
 	args: IDataObject,
 	itemIndex: number,
 ): Promise<IDataObject> {
-	const credentials = await this.getCredentials('linkMcpApi');
-	const serverUrl = credentials.serverUrl as string;
-
 	const options: IHttpRequestOptions = {
 		method: 'POST' as IHttpRequestMethods,
-		url: `${serverUrl}/api/mcp`,
+		url: '={{$credentials.serverUrl}}/api/mcp',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${credentials.apiKey as string}`,
 		},
 		body: JSON.stringify({
 			jsonrpc: '2.0',
@@ -45,7 +41,11 @@ export async function callMcpTool(
 		json: false,
 	};
 
-	const response = await this.helpers.httpRequest(options);
+	const response = await this.helpers.httpRequestWithAuthentication.call(
+		this,
+		'linkMcpApi',
+		options,
+	);
 	const body: McpResponse =
 		typeof response.body === 'string' ? JSON.parse(response.body) : response.body;
 

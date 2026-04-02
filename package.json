@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-linkmcp",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "n8n community node for LinkMCP – LinkedIn superpowers for your workflows",
 	"license": "MIT",
 	"homepage": "https://linkmcp.io",
@@ -20,7 +20,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/linkmcp/n8n-nodes-linkmcp.git"
+		"url": "https://github.com/linkmcp-org/n8n-nodes-linkmcp.git"
 	},
 	"scripts": {
 		"build": "n8n-node build",
