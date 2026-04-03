@@ -22,9 +22,12 @@ export async function callMcpTool(
 	args: IDataObject,
 	itemIndex: number,
 ): Promise<IDataObject> {
+	const credentials = await this.getCredentials('linkMcpApi');
+	const serverUrl = credentials.serverUrl as string;
+
 	const options: IHttpRequestOptions = {
 		method: 'POST' as IHttpRequestMethods,
-		url: '={{$credentials.serverUrl}}/api/mcp',
+		url: `${serverUrl}/api/mcp`,
 		headers: {
 			'Content-Type': 'application/json',
 		},
