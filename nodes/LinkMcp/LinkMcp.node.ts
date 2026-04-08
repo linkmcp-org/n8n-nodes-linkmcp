@@ -98,6 +98,16 @@ function buildToolCall(
 			return { toolName: 'linkedin_get_post_comments', args };
 		}
 
+		case 'post.getNestedComments': {
+			const args: IDataObject = {
+				activityUrn: params.getNodeParameter('activityUrn', i) as string,
+				parentCommentId: params.getNodeParameter('parentCommentId', i) as string,
+			};
+			const cursor = params.getNodeParameter('cursor', i, '') as string;
+			if (cursor) args.cursor = cursor;
+			return { toolName: 'linkedin_get_nested_comments', args };
+		}
+
 		case 'post.getReactions': {
 			const args: IDataObject = {};
 			const postUrl = params.getNodeParameter('postUrl', i, '') as string;

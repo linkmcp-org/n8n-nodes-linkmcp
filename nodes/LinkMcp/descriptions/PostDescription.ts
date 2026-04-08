@@ -20,6 +20,12 @@ export const postOperations: INodeProperties = {
 			description: 'Retrieve comments on a LinkedIn post',
 		},
 		{
+			name: 'Get Nested Comments',
+			value: 'getNestedComments',
+			action: 'Get nested comment replies',
+			description: 'Retrieve reply threads under a specific comment',
+		},
+		{
 			name: 'Get Reactions',
 			value: 'getReactions',
 			action: 'Get post reactions',
@@ -93,6 +99,34 @@ export const postFields: INodeProperties[] = [
 		default: '',
 		description: 'Pagination cursor from a previous response',
 		displayOptions: { show: { resource: ['post'], operation: ['getComments'] } },
+	},
+
+	// --- Get Nested Comments ---
+	{
+		displayName: 'Activity URN',
+		name: 'activityUrn',
+		type: 'string',
+		required: true,
+		default: '',
+		description: 'Post activity URN or LinkedIn post URL',
+		displayOptions: { show: { resource: ['post'], operation: ['getNestedComments'] } },
+	},
+	{
+		displayName: 'Parent Comment ID',
+		name: 'parentCommentId',
+		type: 'string',
+		required: true,
+		default: '',
+		description: 'Comment ID of the parent comment (from Get Comments where replyCount > 0)',
+		displayOptions: { show: { resource: ['post'], operation: ['getNestedComments'] } },
+	},
+	{
+		displayName: 'Cursor',
+		name: 'cursor',
+		type: 'string',
+		default: '',
+		description: 'Pagination cursor from a previous response',
+		displayOptions: { show: { resource: ['post'], operation: ['getNestedComments'] } },
 	},
 
 	// --- Get Reactions ---
